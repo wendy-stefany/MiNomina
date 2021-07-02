@@ -1,5 +1,8 @@
 <?php
-
+Use App\Http\Controllers\NominaController;
+Use App\Http\Controllers\EmpleadoController;
+Use App\Http\Controllers\DepartamentoController;
+Use App\Http\Controllers\AvisoController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -12,7 +15,9 @@ use Illuminate\Support\Facades\Route;
 | contains the "web" middleware group. Now create something great!
 |
 */
-
+Route::get('inicio', function () {
+    return view('login');
+});
 Route::get('/', function () {
     return view('welcome');
 });
@@ -20,3 +25,8 @@ Route::get('/', function () {
 Route::middleware(['auth:sanctum', 'verified'])->get('/dashboard', function () {
     return view('dashboard');
 })->name('dashboard');
+
+Route::resource('nomina',NominaController::class);
+Route::resource('empleado',EmpleadoController::class);
+Route::resource('departamento',DepartamentoController::class);
+Route::resource('aviso',AvisoController::class);
