@@ -38,6 +38,7 @@
                         <tr>
                           <td>
                              {{$nomina->semana}}
+                             {{$nomina->empleado->user->id}}
                           </td>
                           <td class="text-success">
                              $ {{$nomina->percepcion}}

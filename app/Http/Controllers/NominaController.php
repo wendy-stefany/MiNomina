@@ -1,8 +1,9 @@
 <?php
 
 namespace App\Http\Controllers;
-
+use Illuminate\Support\Facades\Auth;
 use App\Models\Nomina;
+use App\Models\Empleado;
 use Illuminate\Http\Request;
 
 
@@ -28,9 +29,10 @@ class NominaController extends Controller
      */
     public function index()
     {
-        $nominas = Nomina::all();
-        //dd($nominas->all());
-        return view('nomina.nominaIndex',compact('nominas'));
+       // $nominas = Nomina::all();
+        $nomina = Auth::user()->empleado;
+        $nominas =$nomina->nominas;
+         return view('nomina.nominaIndex',compact('nominas'));
     }
 
     /**

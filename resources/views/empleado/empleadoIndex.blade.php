@@ -40,6 +40,7 @@
                           </td>
                           <td>
                               {{$empleado->nombre}}
+                              
                           </td>
                           <td >
                               {{$empleado->telefono}}

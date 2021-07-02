@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Empleado;
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
+use Illuminate\Support\Facades\Auth;
 
 class EmpleadoController extends Controller
 {
@@ -27,7 +28,10 @@ class EmpleadoController extends Controller
      */
     public function index()
     {
-        $empleados = Empleado::all();
+       // $empleados = Empleado::all();
+       $empleados = Auth::user()->empleado;
+       $empleados =$empleados->nominas;
+        dd($empleados);
         //dd($nominas->all());
         return view('empleado.empleadoIndex',compact('empleados'));
     }
