@@ -73,6 +73,7 @@ class DepartamentoController extends Controller
      */
     public function edit(Departamento $departamento)
     {
+        dd($departamento->avisos);
         return view('departamento.departamentoForm', compact('departamento'));
     }
 

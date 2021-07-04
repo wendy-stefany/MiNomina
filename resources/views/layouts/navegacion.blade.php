@@ -1,6 +1,7 @@
 <div class="container-fluid page-body-wrapper">
       <!-- partial:partials/_sidebar.html -->
       <nav class="sidebar sidebar-offcanvas" id="sidebar">
+      @auth
         <ul class="nav">
           <li class="nav-item">
             <a class="nav-link" href="/inicio">
@@ -8,6 +9,7 @@
               <span class="menu-title">Inicio</span>
             </a>
           </li>
+          
           <li class="nav-item">
             <a class="nav-link" href="/aviso">
               <i class="mdi mdi-circle-outline menu-icon"></i>
@@ -32,5 +34,7 @@
               <span class="menu-title">Departamentos</span>
             </a>
           </li>
+          @endauth
         </ul>
+        
       </nav>

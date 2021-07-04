@@ -28,10 +28,10 @@ class EmpleadoController extends Controller
      */
     public function index()
     {
-       // $empleados = Empleado::all();
-       $empleados = Auth::user()->empleado;
-       $empleados =$empleados->nominas;
-        dd($empleados);
+        $empleados = Empleado::all();
+    //    $empleados = Auth::user()->empleado;
+    //    $empleados =$empleados->nominas;
+       // dd($empleados);
         //dd($nominas->all());
         return view('empleado.empleadoIndex',compact('empleados'));
     }

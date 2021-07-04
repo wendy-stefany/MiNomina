@@ -14,8 +14,8 @@ class CreateAvisoDepartamentoTable extends Migration
     public function up()
     {
         Schema::create('aviso_departamento', function (Blueprint $table) {
-            $table->foreignId('aviso_id')->constrained()->onDelete('cascade');
             $table->foreignId('departamento_id')->constrained();
+            $table->foreignId('aviso_id')->constrained()->onDelete('cascade');  
         });
     }
 

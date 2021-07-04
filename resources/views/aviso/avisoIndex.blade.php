@@ -25,28 +25,20 @@
         <div class="col-lg-4 grid-margin stretch-card">
           <div class="card">
             <div class="card-body">
-              <h4 class="card-title">{{$aviso->remitente}}<p class="card-description">
-              {{$aviso->created_at->format('Y-m-d')}}
+              <h4 class="card-title">
+              <a href="{{route('aviso.show', $aviso->id)}}">{{$aviso->nombre}}</a>
+              <p class="card-description">
+                {{$aviso->created_at->format('Y-m-d')}}
               </p></h4>
-              <h4 class="card-title text-info">{{$aviso->nombre}}</h4>
+               <h4 class="card-title"><p class="card-description">
+              {{$aviso->remitente}}
+              </p></h4>
               <button type="button" class="btn btn-primary btn-block">
                       <i class="mdi mdi-arrow-down-bold-circle-outline"></i>
                       Descargar
                 </button>
                 <br>
-                <button type="button" class=" btn btn-dark btn-block" onclick="location.href='{{route('aviso.edit', $aviso->id)}}'">
-                      <i class="mdi mdi-file-check "></i>
-                       Editar                  
-                    </button>
-                    </br>
-                    <form action="{{route('aviso.destroy', $aviso)}}" method="POST">
-                    @csrf
-                     @method('DELETE')
-                    <button type="sumbit" class=" btn btn-danger btn-block">
-                      <i class="mdi mdi-close-octagon-outline "></i>                                                    
-                      Eliminar
-                    </button>
-                 </form>
+                
             </div>
           </div>
         </div>  

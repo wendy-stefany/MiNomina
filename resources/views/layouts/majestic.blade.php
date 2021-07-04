@@ -35,27 +35,17 @@
         </div>  
       </div>
       <div class="navbar-menu-wrapper d-flex align-items-center justify-content-end">
-      <!-- @include('layouts.busqueda') -->
-      <ul class="navbar-nav navbar-nav-right">
       
+       @include('layouts.busqueda') 
+      <ul class="navbar-nav navbar-nav-right">
+      @auth
           @include('layouts.mensajes')
           @include('layouts.notificacion') 
-          <li class="nav-item nav-profile dropdown mr-4">
-            <a class="nav-link dropdown-toggle" href="#" data-toggle="dropdown" id="profileDropdown">
-              <img src="{{ asset('images/faces/face5.jpg') }}" alt="profile"/>
-              <span class="nav-profile-name">Louis Barnett</span>
-            </a>
-            <div class="dropdown-menu dropdown-menu-right navbar-dropdown" aria-labelledby="profileDropdown">
-              <a class="dropdown-item">
-                <i class="mdi mdi-settings text-primary"></i>
-                Settings
-              </a>
-              <a class="dropdown-item">
-                <i class="mdi mdi-logout text-primary"></i>
-                Logout
-              </a>
-            </div>
-          </li>
+          @include('layouts.menu_usuario')
+        @endauth
+        @guest
+          @include('layouts.registrate')
+        @endguest
         </ul>
         <button class="navbar-toggler navbar-toggler-right d-lg-none align-self-center" type="button" data-toggle="offcanvas">
           <span class="mdi mdi-menu"></span>
@@ -63,7 +53,9 @@
       </div>
     </nav>
     <!-- partial -->
+   
     @include('layouts.navegacion')
+    
       <!-- partial -->
       <div class="main-panel">
         <div class="content-wrapper">

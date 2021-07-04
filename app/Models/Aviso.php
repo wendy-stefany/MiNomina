@@ -9,4 +9,10 @@ class Aviso extends Model
 {
     use HasFactory;
     protected $fillable = ['nombre','remitente','documento'];
+    
+    
+    public function departamentos()
+    {
+        return $this->belongsToMany(Departamento::class);
+    }
 }

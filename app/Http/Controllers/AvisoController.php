@@ -3,8 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Models\Aviso;
+use App\Models\Departamento;
 use Illuminate\Http\Request;
-
 class AvisoController extends Controller
 {
     private $rules;
@@ -29,17 +29,15 @@ class AvisoController extends Controller
         //dd($nominas->all());
         return view('aviso.avisoIndex',compact('avisos'));
     }
-
     /**
      * Show the form for creating a new resource.
      *
      * @return \Illuminate\Http\Response
      */
     public function create()
-    {
+    { 
         return view('aviso.avisoForm');
     }
-
     /**
      * Store a newly created resource in storage.
      *
@@ -52,7 +50,6 @@ class AvisoController extends Controller
         Aviso::create($request->all());
         return redirect()->route('aviso.index');
     }
-
     /**
      * Display the specified resource.
      *
@@ -61,9 +58,9 @@ class AvisoController extends Controller
      */
     public function show(Aviso $aviso)
     {
-        return view('aviso.avisoShow', compact('aviso'));
+        $departamentos = Departamento::get();
+        return view('aviso.avisoShow', compact('aviso', 'departamentos'));
     }
-
     /**
      * Show the form for editing the specified resource.
      *
@@ -100,4 +97,13 @@ class AvisoController extends Controller
         $aviso->delete();
         return redirect()->route('aviso.index');
     }
+    public function agregaDepartamento(Request $request, Aviso $aviso)
+    {
+       //  dd($request->all());
+       // $aviso->departamentos()->attach($request->departamento_id);
+       $aviso->departamentos()->sync($request->departamento_id);
+        return redirect()->route('aviso.show', $aviso);
+    }
+   
+
 }

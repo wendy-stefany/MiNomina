@@ -15,4 +15,5 @@ class Nomina extends Model
     {
         return $this->belongsTo(Empleado::class);
     }
+    
 }

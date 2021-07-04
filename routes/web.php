@@ -16,17 +16,18 @@ use Illuminate\Support\Facades\Route;
 |
 */
 Route::get('inicio', function () {
-    return view('login');
+    return view('inicio');
 });
 Route::get('/', function () {
-    return view('welcome');
+    return view('inicio');
 });
 
 Route::middleware(['auth:sanctum', 'verified'])->get('/dashboard', function () {
     return view('dashboard');
 })->name('dashboard');
 
-Route::resource('nomina',NominaController::class);
-Route::resource('empleado',EmpleadoController::class);
-Route::resource('departamento',DepartamentoController::class);
-Route::resource('aviso',AvisoController::class);
+Route::post('aviso/{aviso}/agrega-departamento', [AvisoController::class, 'agregaDepartamento'])->name('aviso.agrega-departamento');
+Route::resource('aviso',AvisoController::class)->middleware('auth');
+Route::resource('nomina',NominaController::class)->middleware('auth');
+Route::resource('empleado',EmpleadoController::class)->middleware('auth');
+Route::resource('departamento',DepartamentoController::class)->middleware('auth');
