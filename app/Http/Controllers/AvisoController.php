@@ -5,17 +5,20 @@ namespace App\Http\Controllers;
 use App\Models\Aviso;
 use App\Models\Departamento;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Gate;
+
 class AvisoController extends Controller
 {
     private $rules;
-
+    
     public function __construct()
     {
+        $this->authorizeResource(Aviso::class, 'aviso');
         $this->rules = [
             'nombre'=>'required|max:255|min:5',
             'remitente'=>'required|max:255|min:5',
             'documento' => 'required',
-           // 'departamento_id'=>'required|size:4',
         ];
     }
     /**
@@ -25,8 +28,14 @@ class AvisoController extends Controller
      */
     public function index()
     {
-        $avisos = Aviso::all();
-        //dd($nominas->all());
+
+        if(Auth::user()->tipo==='admin'){
+            $avisos = Aviso::with('departamentos')->get(); //$nominas = Nomina::with('empleado:id,nombre')->get();
+        }
+        else{  
+           $empleado = Auth::user()->empleado;
+           $avisos = $empleado->departamento->avisos;
+       }
         return view('aviso.avisoIndex',compact('avisos'));
     }
     /**
@@ -36,6 +45,7 @@ class AvisoController extends Controller
      */
     public function create()
     { 
+        Gate::authorize('admin');
         return view('aviso.avisoForm');
     }
     /**
@@ -58,6 +68,7 @@ class AvisoController extends Controller
      */
     public function show(Aviso $aviso)
     {
+        Gate::authorize('admin');
         $departamentos = Departamento::get();
         return view('aviso.avisoShow', compact('aviso', 'departamentos'));
     }
@@ -69,6 +80,7 @@ class AvisoController extends Controller
      */
     public function edit(Aviso $aviso)
     {
+        Gate::authorize('admin');
         return view('aviso.avisoForm', compact('aviso'));
     }
 
@@ -94,13 +106,13 @@ class AvisoController extends Controller
      */
     public function destroy(Aviso $aviso)
     {
+        Gate::authorize('admin');
         $aviso->delete();
         return redirect()->route('aviso.index');
     }
     public function agregaDepartamento(Request $request, Aviso $aviso)
     {
-       //  dd($request->all());
-       // $aviso->departamentos()->attach($request->departamento_id);
+        Gate::authorize('admin');
        $aviso->departamentos()->sync($request->departamento_id);
         return redirect()->route('aviso.show', $aviso);
     }

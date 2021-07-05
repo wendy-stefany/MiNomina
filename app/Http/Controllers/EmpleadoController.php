@@ -3,9 +3,12 @@
 namespace App\Http\Controllers;
 
 use App\Models\Empleado;
+use App\Models\User;
+use App\Models\Departamento;
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Gate;
 
 class EmpleadoController extends Controller
 {
@@ -13,11 +16,13 @@ class EmpleadoController extends Controller
 
     public function __construct()
     {
+        $this->authorizeResource(Empleado::class, 'empleado');
         $this->rules = [
             'id'=>'required|size:10',
             'nombre'=>'required|max:255|min:4',
             'telefono'=>'required|size:10',
-            'departamento_id' => 'required|size:4',
+            'departamento_id' => 'required|size:4|exists:departamentos,id',
+            'user_id'=> 'required|unique:empleados,user_id|exists:users,id',
             
         ];
     }
@@ -29,10 +34,6 @@ class EmpleadoController extends Controller
     public function index()
     {
         $empleados = Empleado::all();
-    //    $empleados = Auth::user()->empleado;
-    //    $empleados =$empleados->nominas;
-       // dd($empleados);
-        //dd($nominas->all());
         return view('empleado.empleadoIndex',compact('empleados'));
     }
 
@@ -43,7 +44,10 @@ class EmpleadoController extends Controller
      */
     public function create()
     {
-        return view('empleado.empleadoForm');
+        Gate::authorize('admin');
+        $departamentos = Departamento::all();
+        $usuarios = User::doesntHave('empleado')->get();
+        return view('empleado.empleadoForm',compact('departamentos','usuarios'));
     }
 
     /**
@@ -78,7 +82,10 @@ class EmpleadoController extends Controller
      */
     public function edit(Empleado $empleado)
     {
-        return view('empleado.empleadoForm', compact('empleado'));
+        Gate::authorize('admin');
+        $departamentos = Departamento::all();
+        $usuarios = User::doesntHave('empleado')->get();
+        return view('empleado.empleadoForm', compact('empleado','departamentos','usuarios'));
     }
 
     /**
@@ -103,6 +110,7 @@ class EmpleadoController extends Controller
      */
     public function destroy(Empleado $empleado)
     {
+        Gate::authorize('admin');
         $empleado->delete();
         return redirect()->route('empleado.index');
     }

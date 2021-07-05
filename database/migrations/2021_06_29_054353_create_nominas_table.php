@@ -19,7 +19,7 @@ class CreateNominasTable extends Migration
             $table->string('percepcion');
             $table->string('deduccion');
             $table->string('documento')->nullable();
-            $table->foreignId('empleado_id')->constrained();
+            $table->foreignId('empleado_id')->constrained()->onDelete('cascade'); 
             $table->timestamps();
         });
     }

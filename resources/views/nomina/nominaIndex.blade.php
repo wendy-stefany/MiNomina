@@ -5,14 +5,23 @@
                 <div class="d-flex justify-content-between flex-wrap">
                   <div class="d-flex align-items-end flex-wrap">
                     <div class="mr-md-3 mr-xl-3">
-                        <div class="display-4">Mis Nominas</div>
+                    @if(Auth::user()->tipo==='admin')
+                        <div class="display-4">Nominas</div>
                     </div>
                   </div>
                     <div class="d-flex justify-content-between align-items-end flex-wrap">
                         <button type="button" class="btn btn-primary btn-block" onclick="location.href='nomina/create'" >
                             <i class="mdi mdi-playlist-plus"></i>Nuevo
                         </button>
+                       
+                        @else
+                        <div class="display-4">Mis Nominas</div>
                     </div>
+                  </div>
+                    <div class="d-flex justify-content-between align-items-end flex-wrap">
+                    @endif
+                    </div>
+                    
                 </div>
               </div>
             </div>
@@ -31,6 +40,7 @@
                         <th>Decucciones</th>
                         <th>Total</th>
                         <th>Fecha</th>
+                        <th>N.empleado</th>
                         </tr>
                       </thead>
                       <tbody>
@@ -38,7 +48,6 @@
                         <tr>
                           <td>
                              {{$nomina->semana}}
-                             {{$nomina->empleado->user->id}}
                           </td>
                           <td class="text-success">
                              $ {{$nomina->percepcion}}
@@ -52,21 +61,27 @@
                           <td>
                              {{$nomina->created_at->format('Y-m-d')}}
                           </td>
-                          <td class="py-1 text-info">
-                            <a class="mdi mdi-file-document" ></a>
+                          <td>
+                          {{$nomina->empleado->id}}
                           </td>
                           <td>
-                            <a class="mdi mdi-border-color" href="{{route('nomina.edit', $nomina->id)}}" ></a>
+                            <a class="mdi mdi-download text-primary" href="{{route('nomina.edit', $nomina->id)}}" ></a>
+                          </td>
+
+                          @can('update',$nomina)
+                          <td>
+                            <a class="mdi mdi-pencil text-success" href="{{route('nomina.edit', $nomina->id)}}" ></a>
                           </td>
                           <td>
                             <form action="{{route('nomina.destroy', $nomina)}}" method="POST">
                                 @csrf
                                 @method('DELETE')
                                   <button type="sumit" class="btn btn-inverse-primarybtn-rounded btn-icon">
-                                      <i class="mdi mdi-close-circle text-danger"></i>
+                                      <i class="mdi mdi-delete text-danger"></i>
                                   </button>
                             </form>
                           </td>
+                          @endcan
                         </tr>
                         @endforeach
                       </tbody>

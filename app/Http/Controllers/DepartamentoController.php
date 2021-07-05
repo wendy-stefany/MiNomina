@@ -4,13 +4,16 @@ namespace App\Http\Controllers;
 
 use App\Models\Departamento;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Gate;
 
 class DepartamentoController extends Controller
 {
     private $rules;
 
-    public function __construct()
+    public function __construct() 
     {
+        $this->authorizeResource(Departamento::class, 'departamento');
         $this->rules = [
             'id'=>'required|size:4',
             'departamento'=>'required|max:255|min:5',
@@ -26,7 +29,6 @@ class DepartamentoController extends Controller
     public function index()
     {
         $departamentos = Departamento::all();
-        //dd($nominas->all());
         return view('departamento.departamentoIndex',compact('departamentos'));
     }
 
@@ -37,6 +39,7 @@ class DepartamentoController extends Controller
      */
     public function create()
     {
+        Gate::authorize('admin');
         return view('departamento.departamentoForm');
     }
 
@@ -73,7 +76,7 @@ class DepartamentoController extends Controller
      */
     public function edit(Departamento $departamento)
     {
-        dd($departamento->avisos);
+        Gate::authorize('admin');
         return view('departamento.departamentoForm', compact('departamento'));
     }
 
@@ -99,6 +102,7 @@ class DepartamentoController extends Controller
      */
     public function destroy(Departamento $departamento)
     {
+        Gate::authorize('admin');
         $departamento->delete();
         return redirect()->route('departamento.index');
     }

@@ -21,7 +21,19 @@
                             <div class="form-group row">
                             <label class="col-sm-3 col-form-label">N.Empleado</label>
                                 <div class="col-sm-9">
-                                    <input type="text" class="form-control" name="empleado_id" id="empleado_id" value="{{ old('empleado_id') ?? $nomina->empleado_id ?? ''}}"/>
+                                    <select class="form-control-lg form-control" name="empleado_id" id="empleado_id">
+                                     @foreach($empleados as $empleadoo)
+                                    @if(isset($nomina))
+                                        <option value="{{$nomina->empleado_id}}" {{ old('empleado_id',$nomina->empleado_id)==$empleadoo->id ? 'selected' : ''  ?? ''}}>
+                                            {{ $empleadoo->id }}
+                                        </option>
+                                        @else
+                                        <option value="{{$empleadoo->id}}">
+                                         {{ $empleadoo->id }}
+                                        </option>
+                                        @endif
+                                    @endforeach
+                                    </select>
                                 </div>
                             </div>
                         </div>

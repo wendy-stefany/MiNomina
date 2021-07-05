@@ -1,18 +1,22 @@
 <?php
 
 namespace App\Http\Controllers;
-use Illuminate\Support\Facades\Auth;
+
 use App\Models\Nomina;
 use App\Models\Empleado;
 use Illuminate\Http\Request;
-
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Gate;
 
 class NominaController extends Controller
 {
     private $rules;
+   
 
     public function __construct()
     {
+       // $this->authorizeResource(Nomina::class, 'nomina');
+
         $this->rules = [
             'semana'=>'required|size:2',
             'percepcion'=>'required',
@@ -29,9 +33,13 @@ class NominaController extends Controller
      */
     public function index()
     {
-       // $nominas = Nomina::all();
-        $nomina = Auth::user()->empleado;
-        $nominas =$nomina->nominas;
+         if(Auth::user()->tipo==='admin'){
+             $nominas = Nomina::with('empleado')->get(); //$nominas = Nomina::with('empleado:id,nombre')->get();
+         }
+         else{  
+            $empleado = Auth::user()->empleado;
+            $nominas = $empleado->nominas()->with('empleado')->get();
+        }
          return view('nomina.nominaIndex',compact('nominas'));
     }
 
@@ -42,7 +50,12 @@ class NominaController extends Controller
      */
     public function create()
     {
-        return view('nomina.nominaForm');
+        // if (! Gate::allows('admin')) {
+        //     abort(403);
+        // }
+        Gate::authorize('admin');
+        $empleados = Empleado::all();
+        return view('nomina.nominaForm',compact('empleados'));
     }
 
     /**
@@ -54,6 +67,7 @@ class NominaController extends Controller
     public function store(Request $request)
     {
         $request->validate($this->rules );
+
         Nomina::create($request->all());
         return redirect()->route('nomina.index');
     }
@@ -77,7 +91,9 @@ class NominaController extends Controller
      */
     public function edit(Nomina $nomina)
     {
-        return view('nomina.nominaForm', compact('nomina'));
+        Gate::authorize('admin');
+        $empleados = Empleado::all();
+        return view('nomina.nominaForm', compact('nomina','empleados'));
     }
 
     /**
@@ -102,6 +118,7 @@ class NominaController extends Controller
      */
     public function destroy(Nomina $nomina)
     {
+        Gate::authorize('admin');
         $nomina->delete();
         return redirect()->route('nomina.index');
     }

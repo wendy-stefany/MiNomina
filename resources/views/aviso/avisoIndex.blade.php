@@ -9,9 +9,11 @@
           </div>
         </div>
           <div class="d-flex justify-content-between align-items-end flex-wrap">
+          @if(Auth::user()->tipo==='admin')
               <button type="button" class="btn btn-primary btn-block" onclick="location.href='aviso/create'" >
                   <i class="mdi mdi-playlist-plus"></i>Nuevo
               </button>
+              @endif
           </div>
       </div>
     </div>

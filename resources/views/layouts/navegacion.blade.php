@@ -22,6 +22,8 @@
               <span class="menu-title">Nominas</span>
             </a>
           </li>
+        
+          @if(Auth::user()->tipo==='admin')
           <li class="nav-item">
             <a class="nav-link" href="/empleado">
               <i class="mdi mdi-human-greeting menu-icon"></i>
@@ -34,6 +36,7 @@
               <span class="menu-title">Departamentos</span>
             </a>
           </li>
+          @endif
           @endauth
         </ul>
         

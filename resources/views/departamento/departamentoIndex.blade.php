@@ -35,6 +35,7 @@
                         Editar                  
                   </button>
                   <br>
+                  @can('delete',$departamento)
                   <form action="{{route('departamento.destroy', $departamento)}}" method="POST">
                     @csrf
                      @method('DELETE')
@@ -43,6 +44,8 @@
                            Eliminar
                      </button>
                  </form>
+                 @endcan
+               
               </div>
             </div>
           </div>

@@ -50,15 +50,31 @@
                             <div class="form-group row">
                             <label class="col-sm-3 col-form-label">Departamento</label>
                                 <div class="col-sm-9">
-                                    <input type="text" class="form-control" name="departamento_id" id="departamento_id"  placeholder="1234" value="{{ old('departamento_id') ?? $empleado->departamento_id ?? ''}}"/>
+                                    <select class="form-control form-control-lg" name="departamento_id" id="departamento_id">
+                                        @foreach($departamentos as $departamento)
+                                        @if(isset($empleado))
+                                        <option value="{{$empleado->departamento_id}}" {{ old('departamento_id',$empleado->departamento_id)==$departamento->id ? 'selected' : ''  ?? ''}}>
+                                        {{$departamento->id}} - {{$departamento->departamento}}
+                                        </option>
+                                        @else
+                                        <option value="{{ $departamento->id}}">
+                                        {{$departamento->id}} - {{$departamento->departamento}}
+                                        </option>
+                                        @endif
+                                        @endforeach
+                                    </select>
                                 </div>
                             </div>
                         </div>
                         <div class="col-md-6">
                             <div class="form-group row">
-                            <label class="col-sm-3 col-form-label">Usuario</label>
+                                <label class="col-sm-3 col-form-label">Usuario</label>
                                 <div class="col-sm-9">
-                                    <input type="text" class="form-control" name="user_id" id="user_id" value="{{ old('user_id') ?? $empleado->user_id ?? ''}}"/>
+                                    <select class="form-control form-control-lg" name="user_id" id="user_id">
+                                        @foreach($usuarios as $usuario)
+                                            <option value="{{ $usuario->id}}" >{{$usuario->id}} - {{$usuario->name}}</option>
+                                        @endforeach
+                                        </select>
                                 </div>
                             </div>
                         </div>
