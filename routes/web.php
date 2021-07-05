@@ -1,4 +1,5 @@
 <?php
+Use App\Http\Controllers\ArchivoController;
 Use App\Http\Controllers\NominaController;
 Use App\Http\Controllers\EmpleadoController;
 Use App\Http\Controllers\DepartamentoController;
@@ -50,3 +51,9 @@ Route::resource('aviso',AvisoController::class)->middleware('auth')->middleware(
 Route::resource('nomina',NominaController::class)->middleware('auth')->middleware('verified');
 Route::resource('empleado',EmpleadoController::class)->middleware('auth')->middleware('verified');
 Route::resource('departamento',DepartamentoController::class)->middleware('auth')->middleware('verified');
+
+Route::get('nomina/descarga/{nomina}',[NominaController::class, 'descargar'])->name('nomina.descargar')->middleware('auth')->middleware('verified');
+Route::get('aviso/descarga/{aviso}',[AvisoController::class, 'descargar'])->name('aviso.descargar')->middleware('auth')->middleware('verified');
+
+Route::get('archivo/descarga/{archivo}',[ArchivoController::class, 'descargar'])->name('archivo.descargar');
+Route::resource('archivo',ArchivoController::class);

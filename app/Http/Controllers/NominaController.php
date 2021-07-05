@@ -7,6 +7,7 @@ use App\Models\Empleado;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Gate;
+use Illuminate\Support\Facades\Storage;
 
 class NominaController extends Controller
 {
@@ -66,10 +67,20 @@ class NominaController extends Controller
      */
     public function store(Request $request)
     {
-        $request->validate($this->rules );
 
-        Nomina::create($request->all());
-        return redirect()->route('nomina.index');
+        $request->validate($this->rules );
+            $ruta = $request->documento->store('nominas');
+         //    crear registro en tabla archivos
+            $nomina=new Nomina();
+            $nomina->documento = $ruta;
+            $nomina->semana=$request->semana;
+            $nomina->percepcion=$request->percepcion;
+            $nomina->deduccion=$request->deduccion;
+            $nomina->empleado_id=$request->empleado_id;
+           
+            $nomina->save();
+         
+         return redirect()->route('nomina.index');
     }
 
     /**
@@ -106,8 +117,17 @@ class NominaController extends Controller
     public function update(Request $request, Nomina $nomina)
     {
         $request->validate($this->rules );
-        Nomina::where('id',$nomina->id)->update($request->except('_token','_method'));
-        return redirect()->route('nomina.index',$nomina);
+        $ruta = $request->documento->store('nominas');
+
+            $nomina = Nomina::find($nomina->id);
+            $nomina->documento = $ruta;
+            $nomina->semana=$request->semana;
+            $nomina->percepcion=$request->percepcion;
+            $nomina->deduccion=$request->deduccion;
+            $nomina->empleado_id=$request->empleado_id;
+           
+            $nomina->save();
+            return redirect()->route('nomina.index',$nomina);
     }
 
     /**
@@ -121,5 +141,9 @@ class NominaController extends Controller
         Gate::authorize('admin');
         $nomina->delete();
         return redirect()->route('nomina.index');
+    }
+    public function descargar(Nomina $nomina)
+    {
+        return Storage::download($nomina->documento, $nomina->semana, ['Content-Type' => 'pdf']);
     }
 }

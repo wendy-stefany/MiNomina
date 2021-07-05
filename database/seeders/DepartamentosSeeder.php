@@ -16,15 +16,23 @@ class DepartamentosSeeder extends Seeder
     public function run()
     {
         Departamento::create([
-            'id' => '258',
+            'id' => '4020',
             'departamento' => 'Recursos Humanos',
             'encargado'=> 'JOse',
             'telefono' => '3316942356',
-            'id' => '25',
+            
+        ]);
+        Departamento::create([
+            
+            'id' => '4021',
             'departamento' => 'ventas',
             'encargado' => 'manuael',
             'telefono' => '3316452356',
-            'id' => '26',
+            
+        ]);
+        Departamento::create([
+           
+            'id' => '4022',
             'departamento' => 'ventasforanea',
             'encargado' => 'manuael valdez',
             'telefono' => '3316452586',

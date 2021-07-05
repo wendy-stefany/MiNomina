@@ -7,6 +7,7 @@ use App\Models\Departamento;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Gate;
+use Illuminate\Support\Facades\Storage;
 
 class AvisoController extends Controller
 {
@@ -56,8 +57,17 @@ class AvisoController extends Controller
      */
     public function store(Request $request)
     {
+
         $request->validate($this->rules );
-        Aviso::create($request->all());
+            $ruta = $request->documento->store('avisos');
+         //    crear registro en tabla archivos
+            $aviso=new Aviso();
+            $aviso->documento = $ruta;
+            $aviso->nombre=$request->nombre;
+            $aviso->remitente=$request->remitente;
+            $aviso->save();
+
+      
         return redirect()->route('aviso.index');
     }
     /**
@@ -93,9 +103,16 @@ class AvisoController extends Controller
      */
     public function update(Request $request, Aviso $aviso)
     {
+        
         $request->validate($this->rules );
-        Aviso::where('id',$aviso->id)->update($request->except('_token','_method'));
-        return redirect()->route('aviso.show',$aviso);
+        $ruta = $request->documento->store('avisos');
+
+            $aviso = Aviso::find($aviso->id);
+            $aviso->documento = $ruta;
+            $aviso->nombre=$request->nombre;
+            $aviso->remitente=$request->remitente;
+            $aviso->save();
+            return redirect()->route('nomina.index',$aviso);
     }
 
     /**
@@ -115,6 +132,10 @@ class AvisoController extends Controller
         Gate::authorize('admin');
        $aviso->departamentos()->sync($request->departamento_id);
         return redirect()->route('aviso.show', $aviso);
+    }
+    public function descargar(Aviso $aviso)
+    {
+        return Storage::download($aviso->documento, $aviso->nombre, ['Content-Type' => 'pdf']);
     }
    
 

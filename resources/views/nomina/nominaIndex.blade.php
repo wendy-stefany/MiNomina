@@ -65,7 +65,8 @@
                           {{$nomina->empleado->id}}
                           </td>
                           <td>
-                            <a class="mdi mdi-download text-primary" href="{{route('nomina.edit', $nomina->id)}}" ></a>
+                            <a class="mdi mdi-download text-primary"  href="{{route('nomina.descargar',$nomina)}}" ></a>
+                           
                           </td>
 
                           @can('update',$nomina)

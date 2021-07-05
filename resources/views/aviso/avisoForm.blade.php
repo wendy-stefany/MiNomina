@@ -6,11 +6,11 @@
                 <div class="card-body">
                   @if(isset($aviso))
                   <div class="display-4">Editar Aviso</div>
-                    <form action="{{route('aviso.update',$aviso)}}" method="POST">
+                    <form action="{{route('aviso.update',$aviso)}}" method="POST" enctype="multipart/form-data">
                         @method('PATCH')
                     @else
                     <div class="display-4">Nuevo Aviso</div>
-                    <form action="{{route('aviso.store')}}" method="POST">
+                    <form action="{{route('aviso.store')}}" method="POST" enctype="multipart/form-data">
                     @endif
                     @csrf
                     <div class="row">

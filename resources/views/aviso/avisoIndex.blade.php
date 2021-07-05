@@ -35,7 +35,7 @@
                <h4 class="card-title"><p class="card-description">
               {{$aviso->remitente}}
               </p></h4>
-              <button type="button" class="btn btn-primary btn-block">
+              <button type="button" class="btn btn-primary btn-block" onclick="location.href='{{route('aviso.descargar', $aviso->id)}}'">
                       <i class="mdi mdi-arrow-down-bold-circle-outline"></i>
                       Descargar
                 </button>

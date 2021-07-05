@@ -25,7 +25,7 @@ class EmpleadoFactory extends Factory
             'id'             => $this->faker->randomNumber(9, true),
             'nombre'         => $this->faker->name(),
             'telefono'       => $this->faker->phoneNumber(),
-            'departamento_id'=> $this->faker->numberBetween(26, 27),
+            'departamento_id'=> $this->faker->numberBetween(4020,4022),
             'user_id'=> $this->faker->numberBetween(1, 10),
         ];
     }

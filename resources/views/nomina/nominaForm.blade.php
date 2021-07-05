@@ -6,11 +6,11 @@
                 <div class="card-body">
                   @if(isset($nomina))
                   <div class="display-4">Editar Nomina</div>
-                    <form action="{{route('nomina.update',$nomina)}}" method="POST">
+                    <form action="{{route('nomina.update',$nomina)}}" method="POST" enctype="multipart/form-data">
                         @method('PATCH')
                     @else
                     <div class="display-4">Nueva Nomina</div>
-                    <form action="{{route('nomina.store')}}" method="POST">
+                    <form action="{{route('nomina.store')}}" method="POST" enctype="multipart/form-data">
                     @endif
                     @csrf
                     <p class="card-description">
@@ -57,25 +57,18 @@
                          <div class="col-md-6">
                             <div class="form-group row">
                                 <label class="col-sm-3 col-form-label">Documento</label>
+                                <div class="col-md-6">
+                                    <div class="form-group row">
                                         <div class="input-group">
-                                            <input type="file" name="documento" id="documento" class="file-upload-default" value="{{ old('documento') ?? $nomina->documento ?? ''}}" >
-                                                <div class="input-group col-xs-12">
-                                                    <input type="text" class="form-control file-upload-info" disabled placeholder="PDF...">
-                                                    <span class="input-group-append">
-                                                    <button class="file-upload-browse btn btn-primary" type="file">Upload</button>
-                                                    </span>
-                                                </div>
+                                            <input type="file" id="documento" name="documento" accept=".pdf" value="{{ old('documento') ?? $nomina->documento ?? ''}}">
+                                            
                                         </div>
+                                     </div>
+                                 </div>
                             </div>
                         </div>
 
-                        <div class="col-md-6">
-                            <div class="form-group row">
-                                        <div class="input-group">
-                                            <input type="file" id="documento" name="documento" accept=".pdf" value="{{ old('documento') ?? $nomina->documento ?? ''}}">
-                                        </div>
-                            </div>
-                        </div>
+                        
                            
                     </div>
                     <p class="card-description">

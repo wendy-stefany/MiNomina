@@ -10,7 +10,7 @@
           </div>
         </div>
         <div class="d-flex justify-content-between align-items-end flex-wrap">
-                  <button type="button" class="btn btn-light bg-white btn-icon mr-3 d-none d-md-block" title="Descargar" onclick="location.href='{{route('aviso.descargar', $aviso->id)}}'">
+                  <button type="button" class="btn btn-light bg-white btn-icon mr-3 d-none d-md-block" title="Descargar">
                     <i class="mdi mdi-download text-primary"></i>
                   </button>
                   <button type="button" class="btn btn-light bg-white btn-icon mr-3 mt-2 mt-xl-0" title="Editar" onclick="location.href='{{route('aviso.edit', $aviso->id)}}'">
